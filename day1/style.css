@@ -8,6 +8,23 @@ body,html {
   font-family: sans-serif;
 }
 
+.animation {
+  animation-duration: 0.1s;
+  animation-name: rollDrum;
+}
+
+@keyframes rollDrum {
+  from {
+    transform-origin: 50% 50%;
+    transform: scale(1);
+  }
+
+  to {
+    transform-origin: 50% 50%;
+    transform: scale(1.05);
+  }
+}
+
 .drum svg {
   display: block;
   margin: auto;
