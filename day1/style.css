@@ -16,7 +16,7 @@ body,html {
 @keyframes rollDrum {
   from {
     transform-origin: 50% 50%;
-    transform: scale(1);
+    transform: scale(0.99);
   }
 
   to {
