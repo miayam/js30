@@ -397,8 +397,23 @@
 
 <script>
   (function drum(window) {
+    // Toggle the element. After the event's firing, the element's going to be
+    // in its previous state. In this case, adding class attribute and
+    // then removing it after certain action occured.
+    function oneTimeEventHandlerOnToggle(classAttribute) {
+      return function (eventName) {
+        this.classList.add(classAttribute);
+        this.addEventListener(eventName, function (event) {
+          // It's superb information by Joe!
+          // http://joequery.me/code/event-target-vs-event-currenttarget-30-seconds/
+          event.currentTarget.classList.remove(classAttribute);
+          event.currentTarget.removeEventListener(event.type);
+        });
+      };
+    }
+
     function syncTheDrum(event) {
-      // keyboard punched
+      // certain character on keyboard when typed
       var key = document.querySelector(`.key[data-key="${event.keyCode}"]`);
       // the sound of the drum
       var audio = document.querySelector(`audio[data-key="${event.keyCode}"]`);
@@ -412,15 +427,8 @@
       audio.currentTime = 0; // restart audio
       audio.play();
 
-      key.classList.add('playing');
-      key.addEventListener('transitionend', function () {
-        this.classList.remove('playing');
-      })
-
-      drum.classList.add('animation');
-      drum.addEventListener('animationend', function () {
-        this.classList.remove('animation');
-      });
+      oneTimeEventHandlerOnToggle.call(key, 'playing')('transitionend');
+      oneTimeEventHandlerOnToggle.call(drum, 'animation')('animationend');
     }
 
     window.addEventListener('keydown', syncTheDrum);
