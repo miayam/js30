@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>JS + CSS Clock</title>
+</head>
+<body>
+  <div class="clock">
+    <div class="clock-face">
+      <div class="hand hour-hand"></div>
+      <div class="hand min-hand"></div>
+      <div class="hand second-hand"></div>
+    </div>
+  </div>
+
+  <style>
+    html {
+      background: rgba(0,0,0,0.2);
+      background-size: cover;
+      font-family:'helvetica neue';
+      text-align: center;
+      font-size: 10px;
+    }
+
+    body {
+      margin: 0;
+      font-size: 2rem;
+      display: flex;
+      flex: 1;
+      min-height: 100vh;
+      align-items: center;
+    }
+
+    .clock {
+      background-image: url(images/clock.png);
+      background-size: contain;
+      width: 30rem;
+      height: 30rem;
+      border: 1px solid rgba(0,0,0,0.7);
+      border-radius: 50%;
+      margin: 50px auto;
+      position: relative;
+      padding: 2rem;
+    }
+
+    .clock-face {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transform: translateY(-3px); /* account for the height of the clock hands */
+    }
+
+    .hand {
+      width: 50%;
+      height: 3px;
+      background: rgba(0,0,0,0.7);
+      position: absolute;
+      top: 50%;
+      transform-origin: 100%;
+    }
+
+  </style>
+
+  <script>
+    (function clock(window) {
+      var secondHand = document.querySelector('.second-hand');
+      var minutesHand = document.querySelector('.min-hand');
+      var hourHand = document.querySelector('.hour-hand');
+
+      function tickTheClock() {
+        var now = new Date();
+        var seconds = now.getSeconds();
+        var secondRatio = seconds / 60;
+        var secondsDegrees = (secondRatio * 360) + 90;
+        var minutes = now.getMinutes();
+        var minuteRatio = minutes / 60
+        var minutesDegrees = (minutes + secondRatio) / 60 * 360 + 90;
+        var hour = now.getHours();
+        var hourDegrees = (hour + minuteRatio) / 12 * 360 + 90;
+
+        secondHand.style.transform = `rotate(${secondsDegrees}deg)`;
+        minutesHand.style.transform = `rotate(${minutesDegrees}deg)`;
+        hourHand.style.transform = `rotate(${hourDegrees}deg)`;
+      }
+
+      window.setInterval(tickTheClock, 1000);
+    })(window);
+  </script>
+</body>
+</html>
