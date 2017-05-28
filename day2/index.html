@@ -69,18 +69,32 @@
 
       function tickTheClock() {
         var now = new Date();
-        var seconds = now.getSeconds();
-        var secondRatio = seconds / 60;
-        var secondsDegrees = (secondRatio * 360) + 90;
-        var minutes = now.getMinutes();
-        var minuteRatio = minutes / 60
-        var minutesDegrees = (minutes + secondRatio) / 60 * 360 + 90;
-        var hour = now.getHours();
-        var hourDegrees = (hour + minuteRatio) / 12 * 360 + 90;
 
-        secondHand.style.transform = `rotate(${secondsDegrees}deg)`;
-        minutesHand.style.transform = `rotate(${minutesDegrees}deg)`;
-        hourHand.style.transform = `rotate(${hourDegrees}deg)`;
+        var second = now.getSeconds();
+
+        // secondRatio is leftover to be added to the corresponding minute
+        // of the date, so the clock will rotate as expected.
+
+        // For example: 30 minutes 20 seconds. The minute hand will tick and
+        // rotate 180 degree + extra 20 seconds in degree.
+        var secondRatio = second / 60;
+
+        var secondDegree = (secondRatio * 360) + 90;
+
+        var minute = now.getMinutes();
+
+        // minuteRatio is also leftover to be added to the corresponding hour
+        // of the date.
+        var minuteRatio = minute / 60
+
+        var minuteDegree = (minute + secondRatio) / 60 * 360 + 90;
+
+        var hour = now.getHours();
+        var hourDegree = (hour + minuteRatio) / 12 * 360 + 90;
+
+        secondHand.style.transform = `rotate(${secondDegree}deg)`;
+        minutesHand.style.transform = `rotate(${minuteDegree}deg)`;
+        hourHand.style.transform = `rotate(${hourDegree}deg)`;
       }
 
       window.setInterval(tickTheClock, 1000);
