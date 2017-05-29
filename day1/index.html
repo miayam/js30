@@ -402,13 +402,13 @@
     // then removing it after certain action occured.
     function oneTimeEventHandlerOnToggle(classAttribute) {
       var element = this;
-      return function (eventName) {
+      return function addHandler(eventName) {
         element.classList.add(classAttribute);
-        element.addEventListener(eventName, function (event) {
+        element.addEventListener(eventName, function removeHandler(event) {
           // It's superb information by Joe!
           // http://joequery.me/code/event-target-vs-event-currenttarget-30-seconds/
           event.currentTarget.classList.remove(classAttribute);
-          event.currentTarget.removeEventListener(event.type, function (event) {});
+          event.currentTarget.removeEventListener(event.type, removeHandler);
         });
       };
     }
