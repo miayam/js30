@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Type Ahead 👀</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- the form is hidden until all data successfully fetched -->
+  <form class="search-form">
+    <input type="text" class="search" placeholder="City or State">
+    <ul class="suggestions">
+      <li>Filter for a city</li>
+      <li>or a state</li>
+    </ul>
+  </form>
+  <script>
+    (function search(window) {
+      // We expect to get array of all `cities` in US from this endpoint
+      var endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+
+      function findMatches(cities) {
+
+        function getMatches(word) {
+          var regex = new RegExp(word, 'gi');
+          var matches = cities.filter(function (place) {
+            return place.city.match(regex) || place.state.match(regex);
+          });
+
+          return matches;
+        }
+
+        // I shamlessly grab it from:
+        // https://stackoverflow.com/questions/2254185/regular-expression-for-formatting-numbers-in-javascript?answertab=activehttps://stackoverflow.com/questions/2254185/regular-expression-for-formatting-numbers-in-javascript?answertab=active
+        function numberWithComma(number){
+          return number.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+        }
+
+        // Return callback for handling event on search input. In our case 'keyup' and 'change'
+        return function displayMatches(event) {
+          var suggestions = document.querySelector('.suggestions'); // suggestions list DOM
+          var word = this.value; // get string of characters from search input
+          var matches = getMatches(word);
+          var html = matches.map(function (place) {
+            var regex = new RegExp(word, 'gi');
+            var highlight = `<span class='hl'>${word}</span>`
+            var city = place.city.replace(regex, highlight);
+            var state = place.state.replace(regex, highlight);
+
+            return `
+              <li>
+                <span class="name">${city}, ${state}</span>
+                <span class="population">${numberWithComma(place.population)}</span>
+              </li>
+            `;
+          }).join('');
+
+          suggestions.innerHTML = html;
+        };
+      }
+
+      fetch(endpoint)
+        .then(function (blob) {
+          return blob.json();
+        })
+        .then(function (cities) {
+          var form = document.querySelector('.search-form');
+          var search = document.querySelector('.search');
+          var handler;
+
+          // display search form because the data is ready to be implemented
+          form.style.display = "block"
+
+          handler = findMatches(cities);
+
+          search.addEventListener('keyup', handler);
+          search.addEventListener('change', handler);
+        });
+    })(window);
+  </script>
+  </body>
+</html>
