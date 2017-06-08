@@ -27,7 +27,7 @@
       var direction = true;
       var hue = 0;
 
-      // set the canvas attributes
+      // set the canvas attributes so it takes up the whole browser screen
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
 
@@ -37,15 +37,14 @@
       context.lineCap = 'round';
       context.lineWidth = 1;
 
-      // allow the canvas to be drawn by mouse move
+      // allow the canvas to be drawn and set pencil's position
       function letsDraw(event) {
         isDrawing = true;
         lineX = event.offsetX;
         lineY = event.offsetY;
       }
 
-      // disallow the canvas to be drawn by mouse move, triggered
-      // by mouse up
+      // disallow the canvas to be drawn
       function letsNotDraw(event) {
         isDrawing = false;
       }
