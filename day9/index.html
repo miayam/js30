@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Console Tricks!</title>
+</head>
+<body>
+
+  <p onClick="makeGreen()">×BREAK×DOWN×</p>
+
+  <script>
+    (function () {
+      const dogs = [{ name: 'Snickers', age: 2 }, { name: 'hugo', age: 8 }];
+      const p = document.querySelector('p');
+
+      function makeGreen() {
+        p.style.color = '#BADA55';
+        p.style.fontSize = '50px';
+      }
+
+      // Regular
+      console.log("This words would be cleared away...")
+
+      // clearing
+      console.clear();
+
+      // Regular
+      console.log("I don't hate you...");
+
+      // Interpolated
+      (function () {
+        var joke = "joke";
+        var laughing = "laughing";
+        // PHP style
+        console.log("I started a %s", joke);
+
+        // ES6 style
+        console.log(`which started the whole world ${laughing}`);
+      })();
+
+
+      // Styled
+      console.log('%c Love is a beautiful mistake', 'color: blue; font-size: 40px;');
+
+      // warning!
+      console.warn("I warn you!");
+
+      // Error :|
+      console.error(new Error("It's insulting! We use console.error"));
+      console.log(new Error("It's not quite insulting... We use regular console.log"));
+
+      // Info
+      console.info('She is cute, not beautiful');
+
+      // Testing
+      console.assert("I hate a lot of people but I don't hate you" === "I like you", "It's not true!");
+
+      // Viewing DOM Elements
+      console.dir(p);
+
+      // Grouping together
+      dogs.forEach(function (dog) {
+        console.groupCollapsed(`${dog.name}`)
+        console.log(`It is ${dog.name}`);
+        console.log(`It is ${dog.age} years old`);
+        console.log(`It is ${dog.age * 7} dog years old`)
+        console.groupEnd();
+      });
+
+      // counting
+      for (let i = 0; i < 10; i++) {
+        console.count("I love you!");
+      }
+
+      // timing
+      console.time();
+      fetch("https://api.github.com/users/miayam")
+        .then(function (blob) {
+          return blob.json();
+        })
+        .then(function (data) {
+          console.timeEnd('fetching data from https://api.github.com');
+          console.log(data);
+        })
+    })();
+  </script>
+</body>
+</html>
