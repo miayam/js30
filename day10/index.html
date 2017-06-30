@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Hold Shift to Check Multiple Checkboxes</title>
+</head>
+<body>
+  <style>
+
+    html {
+      font-family: sans-serif;
+      background: #cee3f8;
+    }
+
+    .inbox {
+      max-width: 400px;
+      margin: 50px auto;
+      background: white;
+      box-shadow: 2px 2px 0 rgba(0,0,0,0.1);
+    }
+
+    .item {
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid #F1F1F1;
+    }
+
+    .item:last-child {
+      border-bottom:0;
+    }
+
+
+    input:checked + p {
+      background: #F9F9F9;
+      text-decoration: line-through;
+    }
+
+    input[type="checkbox"] {
+      margin: 20px;
+    }
+
+    p {
+      margin: 0;
+      padding: 20px;
+      transition: background 0.2s;
+      flex: 1;
+      font-family: 'helvetica neue';
+      font-size: 20px;
+      font-weight: 200;
+      border-left: 1px solid #D1E2FF;
+    }
+
+  </style>
+   <!--
+   The following is a common layout you would see in an email client.
+
+   When a user clicks a checkbox, holds Shift, and then clicks another checkbox a few rows down, all the checkboxes inbetween those two checkboxes should be checked.
+
+  -->
+  <div class="inbox">
+    <div class="item">
+      <input type="checkbox" class="item__checkbox">
+      <p>This is an inbox layout.</p>
+    </div>
+    <div class="item">
+      <input type="checkbox" class="item__checkbox">
+      <p>Check one item</p>
+    </div>
+    <div class="item">
+      <input type="checkbox" class="item__checkbox">
+      <p>Hold down your Shift key</p>
+    </div>
+    <div class="item">
+      <input type="checkbox" class="item__checkbox">
+      <p>Check a lower item</p>
+    </div>
+    <div class="item">
+      <input type="checkbox" class="item__checkbox">
+      <p>Everything inbetween should also be set to checked</p>
+    </div>
+    <div class="item">
+      <input type="checkbox" class="item__checkbox">
+      <p>Try do it with out any libraries</p>
+    </div>
+    <div class="item">
+      <input type="checkbox" class="item__checkbox">
+      <p>Just regular JavaScript</p>
+    </div>
+    <div class="item">
+      <input type="checkbox" class="item__checkbox">
+      <p>Good Luck!</p>
+    </div>
+    <div class="item">
+      <input type="checkbox" class="item__checkbox">
+      <p>Don't forget to tweet your result!</p>
+    </div>
+  </div>
+  <script>
+    (function (window) {
+      var checkboxes = document.getElementsByClassName('item__checkbox');
+      var firstChecked, firstIdx, lastIdx;
+
+      // It's for mapping dom elements. The Array.prototype.map won't work
+      // with NodeList
+      function forEach(callback) {
+        for (var i = 0; i < this.length; i++) {
+          callback.call(this, this[i], i);
+        }
+      }
+
+      function inBetween(firstIdx, lastIdx) {
+        var start, end;
+
+        var owningObj = this;
+
+        // We decide which one of those two arguments is the start and the end
+        // of in between array
+        if (firstIdx > lastIdx) {
+          start = lastIdx;
+          end = firstIdx;
+        } else {
+          start = firstIdx;
+          end = lastIdx;
+        }
+
+        return function checkInBetween() {
+          var inBetween = Array.prototype.slice.call(owningObj, start, end);
+          inBetween.map(function (checkbox) {
+            checkbox.checked = true;
+          });
+        };
+      }
+
+      forEach.call(checkboxes, function (checkbox, index) {
+        checkbox.addEventListener('click', function (checkbox) {
+          if (event.shiftKey) {
+            if (this.checked && firstChecked === undefined) {
+              firstChecked = this;
+              firstIdx = index;
+            }
+
+            //
+            if (this.checked && firstChecked && firstChecked !== this) {
+              lastIdx = index;
+              inBetween.call(checkboxes, firstIdx, lastIdx)();
+            }
+          }
+        });
+      });
+    })(window);
+  </script>
+</body>
+</html>
