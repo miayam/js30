@@ -100,7 +100,7 @@
       var checkboxes = document.getElementsByClassName('item__checkbox');
       var firstChecked, firstIdx, lastIdx;
 
-      // It's for mapping dom elements. The Array.prototype.map won't work
+      // It's for mapping dom elements. The Array.prototype.forEach won't work
       // with NodeList
       function forEach(callback) {
         for (var i = 0; i < this.length; i++) {
@@ -113,7 +113,7 @@
 
         var owningObj = this;
 
-        // We decide which one of those two arguments is the start and the end
+        // Decide which one of those two arguments is the start and the end
         // of in between array
         if (firstIdx > lastIdx) {
           start = lastIdx;
@@ -132,7 +132,7 @@
       }
 
       forEach.call(checkboxes, function (checkbox, index) {
-        checkbox.addEventListener('click', function (checkbox) {
+        checkbox.addEventListener('click', function (event) {
           if (event.shiftKey) {
             if (this.checked && firstChecked === undefined) {
               firstChecked = this;
