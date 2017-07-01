@@ -1,9 +1,9 @@
 (function (window) {
   var videoPlayer = document.querySelector('.player');
   var videoViewer = videoPlayer.querySelector('.viewer');
-  var progress = videoPlayer.querySelector('.progress');
-  var progressBar = videoPlayer.querySelector('.progress__filled');
-  var toggleButton = videoPlayer.querySelector('.toggle');
+  var progressBar = videoPlayer.querySelector('.progress');
+  var progressBarFilled = videoPlayer.querySelector('.progress__filled');
+  var playOrPauseButton = videoPlayer.querySelector('.toggle');
   var sliders = videoPlayer.getElementsByClassName('player__slider');
   var skipButtons = videoPlayer.getElementsByClassName('player__button--skip');
   var fullscreen = videoPlayer.querySelector('.player__button--fullscreen');
@@ -23,28 +23,36 @@
   }
 
   function handleRangeUpdate() {
-    // Either 'volume' or 'playbackRate'
-    // Here https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement
+    // The element this function listens to is `.player__slider`.
+    // In this case, we have either 'volume' or 'playbackRate'
+    // for `this.name` value.
+    //
+    // Here's the markup:
+    // <input type="range" name="volume" class="player__slider"> and
+    // <input type="range" name="playbackRate class="player__slider">
+    //
+    // For more info:
+    // https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement
     videoViewer[this.name] = this.value;
   }
 
   function progressBarOnPlaying() {
     var currentProgressBar = parseFloat(this.currentTime / this.duration) * 100;
-    progressBar.style.flexBasis = `${currentProgressBar}%`;
+    progressBarFilled.style.flexBasis = `${currentProgressBar}%`;
   }
 
   function togglePlayPauseButton() {
     var button = videoViewer.paused ? '▷' : '▯▯';
-    toggleButton.textContent = button;
+    playOrPauseButton.textContent = button;
   }
 
   function skipTheVideo() {
     videoViewer.currentTime += parseInt(this.dataset.skip);
   }
 
+  // Display video at specific time as the progress bar moved or clicked.
   function scrubTime(event) {
     var time = (event.offsetX / this.offsetWidth) * videoViewer.duration;
-    var method = videoViewer.paused ? 'paused' : 'play';
     videoViewer.currentTime = time;
   }
 
@@ -58,33 +66,43 @@
     }
   }
 
-  // Video viewer you watch the video from. Play and pause as you like.
+  // Video viewer you watch the video from. Click the screen and
+  // you see it paused or played under your control. The progress
+  // bar moves in accord to video's current time, so on until its
+  // duration ends. If the viewer clicked and video played, '▯▯'
+  // shown and '▷' hidden. Thing goes the other way round if the
+  // screen clicked and video paused.
   videoViewer.addEventListener('click', playPauseToggle);
   videoViewer.addEventListener('click', togglePlayPauseButton);
   videoViewer.addEventListener('timeupdate', progressBarOnPlaying);
 
-  toggleButton.addEventListener('click', playPauseToggle);
-  toggleButton.addEventListener('click', togglePlayPauseButton);
+  // A button dedicated to toggle video player. Play or pause the
+  // video as you wish. If the button clicked and video played,
+  // '▯▯' shown and '▷' hidden. Thing goes the other way round if
+  // the button clicked and video paused.
+  playOrPauseButton.addEventListener('click', playPauseToggle);
+  playOrPauseButton.addEventListener('click', togglePlayPauseButton);
 
   // Moving colored bar informs users that the video is playing.
-  // You can play the video back and forth by clicking and moving
+  // You can play the video back and forth by clicking or moving
   // the mouse on progress bar.
-  progress.addEventListener('click', scrubTime);
-  progress.addEventListener('mousemove', function () {
+  progressBar.addEventListener('click', scrubTime);
+  progressBar.addEventListener('mousemove', function () {
     if (!isVideoPlayed) {
       return;
     }
 
     scrubTime.call(this, event);
   });
-  progress.addEventListener('mousedown', function () {
+  progressBar.addEventListener('mousedown', function () {
     isVideoPlayed = true;
   });
-  progress.addEventListener('mouseup', function () {
+  progressBar.addEventListener('mouseup', function () {
     isVideoPlayed = false;
   });
 
-  // Sliders for controlling volume and playback rate (faster or slower).
+  // Sliders for controlling volume (louder or softer)
+  // and playback rate (faster or slower).
   forEach.call(sliders, function (slider) {
     slider.addEventListener('mousemove', handleRangeUpdate);
     slider.addEventListener('change', handleRangeUpdate);
@@ -95,6 +113,6 @@
     skipButton.addEventListener('click', skipTheVideo);
   });
 
-  // Watch the video fullscreen (take up the whole screen).
+  // Watch the video fullscreen (it's taking up the whole screen).
   fullscreen.addEventListener('click', toggleFullscreen);
 })(window);
