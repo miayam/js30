@@ -29,7 +29,7 @@
     //
     // Here's the markup:
     // <input type="range" name="volume" class="player__slider"> and
-    // <input type="range" name="playbackRate class="player__slider">
+    // <input type="range" name="playbackRate" class="player__slider">
     //
     // For more info:
     // https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement
