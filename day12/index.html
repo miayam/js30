@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Key Detection</title>
+  <script type="text/javascript" src="http://www.cornify.com/js/cornify.js"></script>
+</head>
+<body>
+  <p><strong>Type "denissa" and fancy things will emerge.</strong></p>
+<script>
+  (function (window, undefined) {
+    var easterEgg = "denissa"; //
+    var pressedKeys = [];
+
+    window.addEventListener('keyup', function (event) {
+      var secretwords = null;
+
+      pressedKeys.push(event.key);
+
+      // Get the last 7 characters because easter egg words consist of 7 words.
+      // "denissa" is the easter egg words.
+      secretwords = pressedKeys.slice(-easterEgg.length).join('');
+
+      if (secretwords === easterEgg) {
+        // Add rainbow or unicorn to the screen.
+        cornify_add();
+
+        // Empty array if the secret words correct.
+        pressedKeys.splice(0);
+      }
+    });
+  })(window, undefined);
+</script>
+</body>
+</html>
