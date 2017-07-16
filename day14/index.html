@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>JS Reference VS Copy</title>
+</head>
+<body>
+
+  <script>
+    // We copy the value of `year` to this `thisYear`.
+    var year = 2017;
+    var thisYear = year;
+    //
+    //
+    // If we change the value of `year` to something else,
+    // then nothing happens to `thisYear`.
+    year = 2016;
+    console.log(year);
+    console.log(thisYear);
+    //
+    //
+    // The same thing goes to boolean and string values.
+    var name = 'Robert';
+    var hisName = name;
+    var right = true;
+    var left = right;
+    //
+    name = 'James';
+    right = false;
+    //
+    console.log(name);
+    console.log(hisName);
+    console.log(right);
+    console.log(left);
+    console.log('\n');
+    //
+
+    // Let's say we have an array.
+    var players = ['Wes', 'Sarah', 'Ryan', 'Poppy'];
+    //
+    // We try to make a copy of array the same way we
+    // copy numbers, booleans, and strings.
+    var team = players;
+    //
+    // You might think we can just do something like this:
+    team[0] = 'Pop';
+    //
+    // However what happens when we update that array?
+    console.log('Expecting that `var team = players;` will copy the array.')
+    console.log(players);
+    console.log(team);
+    console.log(`It is ${players == team} that both share the same memory.`)
+    console.log('\n');
+    //
+    // Now here is the problem!
+    // We have edited the original array too!
+    // Why? It's because that is an array reference, not an array copy.
+    // They both point to the same array!
+    // So, how do we fix this? We take a copy instead!
+    //
+    //
+    // 1. Old fashioned way.
+    var team2 = players.slice();
+    team2[0] = "James";
+    console.log('Using [].slice.')
+    console.log(players);
+    console.log(team2);
+    console.log(`It is ${players == team2} that both share the same memory.`)
+    console.log('\n');
+    //
+    // 2. Create a new array and concat the old one in.
+    var team3 = [].concat(players);
+    team3[0] = "Rooling Stone";
+    console.log('Using [].concat.')
+    console.log(players);
+    console.log(team3);
+    console.log(`It is ${players == team3} that both share the same memory.`)
+    console.log('\n');
+    //
+    // 3. Use the new ES6 Spread.
+    var team4 = [...players];
+    team4[0] = "Guardian";
+    console.log('Using [...spread].')
+    console.log(players);
+    console.log(team4);
+    console.log(`It is ${players == team4} that both share the same memory.`)
+    console.log('\n');
+    //
+    // The same thing goes for objects, let's say we have a person object.
+    var person = {
+      name: "Dudung",
+      lastName: "Stevenson"
+    };
+    //
+    // Object and Array act the same way when it comes to copying its own
+    // properties. So this kind of statement is completely wrong
+    //
+    // var newPerson = person;
+    //
+    // 1.  Copy properties with Object.assign
+    var newPerson = Object.assign({}, person, {isHandsome: false});
+    //
+    // We will hopefully soon see the object ...spread.
+    //
+    // var newPerson = {...person} // its next generation of EcmaScript
+    //
+    // Things to note - this is only 1 level deep - both for Arrays and
+    // Objects. Lodash has a cloneDeep method, but you should think twice
+    // before using it.
+  </script>
+</body>
+</html>
