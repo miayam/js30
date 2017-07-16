@@ -53,34 +53,34 @@
       }
 
       // It's copy-pasted from internet, but I can explain this
-      // interesting function in my own words. Lodash has this kind of
-      // function. It's well-explained by John Dugan http://bit.ly/2troSTT
+      // interesting function in my own words.
+      // It's well-explained by John Dugan http://bit.ly/2troSTT
       function debounce(func, wait = 20, immediate = true) {
         // It will store unique ID (number) that `window.setTimeout` return.
         // For more about 'window.setTimeout', visit https://mzl.la/2uuQs7Z
         var timeout;
 
         return function() {
-          // In our case, `this` has reference to 'window' object and
-          // `arguments` is an array-like object that includes `event`
+          // In this case, `this` has reference to `window` object and
+          // `arguments` is an array-like object that includes event
           // the window object listen to ('scroll').
           var context = this, args = arguments;
 
-          // This condition make function being passed (`func`) run
-          // without having to wait as long as `timeout` is cleared away.
-          // So, the first time `debounce` return this anonymous function
-          // and have it listen to 'scroll' event, `func` will run
-          // immediately.
+          // This condition make function being passed to `debounce`
+          // function (`func`) run without having to wait as long as
+          // `timeout` is cleared away. So, the first time `debounce`
+          // return this anonymous function and have it listen to 'scroll'
+          // event, `func` will run immediately.
           var callNow = immediate && !timeout;
 
-          // This function will fire after we have waited for a given
-          // time. `wait` parameter contains that duration.
+          // This function will fire after we have waited for certain amount
+          // of time. `wait` parameter contains that duration.
           function later() {
             // Nullify the variable that stores unique ID (number).
             timeout = null;
 
             // If we set `func` not to run immediately after `debounce` being
-            // called, run it anyway until the timeout pass.
+            // called, run it anyway after the timeout pass.
             if (!immediate) {
               func.apply(context, args);
             }
@@ -89,7 +89,7 @@
           // Cancel the previous timeout, if there's any.
           clearTimeout(timeout);
 
-          // Wait for a given time and run `later` function until it expires.
+          // Wait for a given time and run `later` function after it expires.
           // Store the unique ID (number) it returns.
           timeout = setTimeout(later, wait);
 
@@ -110,7 +110,7 @@
           var isHalfWayThroughTheImage = slideInAt > image.offsetTop;
           var isNotOffTheImageBottom = window.scrollY < imageBottom;
 
-          // Slide in if we has passed half way through the image and
+          // Slide in the image if we has passed half way through it and
           // the scroll position is not off the image bottom.
           if (isHalfWayThroughTheImage && isNotOffTheImageBottom) {
             image.classList.add('active');
@@ -128,7 +128,7 @@
     html {
       box-sizing: border-box;
       background: #cee3f8;
-      font-size: 17px;
+      font-size: 15px;
       font-weight: 200;
     }
     body {
