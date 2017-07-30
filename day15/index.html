@@ -48,7 +48,7 @@
             <input type="checkbox" data-index=${index} id="item${index}"
              ${isChecked}>
             <label for="item${index}">${item.text}<label>
-            <span data-index=${index}>✖</span>
+            <span class="delete-item" data-index=${index}>✖</span>
           </li>
         `;
       }).join('');
