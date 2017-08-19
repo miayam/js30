@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Mouse Shadow</title>
+</head>
+<body>
+
+  <div class="hero">
+    <article contenteditable>
+      <img class="logo logo-js" src="personal_life.png" alt="logo">
+    </article>
+  </div>
+
+  <style>
+    html {
+      color:black;
+      font-family: sans-serif;
+    }
+
+    body {
+      margin: 0;
+    }
+
+    .hero {
+      min-height: 100vh;
+      display:flex;
+      justify-content: center;
+      align-items: center;
+      color:black;
+    }
+
+    .logo {
+      border-radius: 50%;
+    }
+  </style>
+
+  <script>
+    (function (window, undefined) {
+      var hero = document.querySelector('.hero');
+      var logo = hero.querySelector('.logo-js');
+
+      function moveShadow(event) {
+        var width = hero.offsetWidth;
+        var height = hero.offsetHeight;
+        var walk = 200;
+        var x = event.offsetX;
+        var y = event.offsetY;
+        var xWalk, yWalk;
+
+        if (this !== event.target) {
+          x = event.offsetX + event.target.offsetLeft;
+          y = event.offsetY + event.target.offsetTop;
+        }
+
+        xWalk = Math.round(x / width * walk - (walk / 2));
+        yWalk = Math.round(y / height * walk - (walk / 2));
+
+        logo.style.boxShadow = `
+          ${xWalk}px ${yWalk}px 0 rgba(255,0,255,0.7),
+          ${xWalk * -1}px ${yWalk}px 0 rgba(0,255,255,0.7),
+          ${yWalk}px ${xWalk * -1}px 0 rgba(0,255,0,0.7),
+          ${yWalk * -1}px ${xWalk}px 0 rgba(0,0,255,0.7)
+        `;
+      }
+
+      hero.addEventListener('mousemove', moveShadow);
+    })(window);
+  </script>
+</body>
+</html>
