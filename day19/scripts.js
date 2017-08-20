@@ -53,12 +53,6 @@
     strip.insertBefore(link, strip.firsChild);
   }
 
-  function forEach(callback) {
-    for (var i = 0; i < this.length; i++) {
-      callback.call(this, this[i], i);
-    }
-  }
-
   function init() {
     getVideo();
     video.addEventListener('canplay', paintToCanvas);
