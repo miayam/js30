@@ -1,0 +1,76 @@
+html {
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+html {
+  font-size: 10px;
+  background: #cee3f8;
+}
+
+.controls {
+  position: absolute;
+  left: 310px;
+  top: 10px;
+  z-index: 999;
+}
+
+.photo-icon {
+  font-size: 40px;
+}
+
+.photo {
+  position: relative;
+  z-index: 2;
+}
+
+.wrapper {
+  position: relative;
+}
+
+.photobooth {
+  margin: auto 300px;
+  margin-top: 50px;
+  background: white;
+  border: 5px solid orangered;
+  border-radius: 5px;
+}
+
+/*clearfix*/
+.photobooth:after {
+  content: '';
+  display: block;
+  clear: both;
+}
+
+.photo {
+  width: 100%;
+  float: left;
+}
+
+.player {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 200px;
+  transform: scale(-1, 1);
+  -webkit-transform: scale(-1, 1);
+}
+
+/*
+  Strip!
+*/
+
+.strip {
+  padding: 2rem;
+}
+.strip img {
+  width: 100px;
+  overflow-x: scroll;
+  padding: 0.8rem;
+  box-shadow: 0 0 3px rgba(0,0,0,0.2);
+  background: white;
+}
