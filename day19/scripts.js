@@ -9,7 +9,7 @@
 
   function getVideo() {
     navigator.mediaDevices.getUserMedia({
-      video: true, audio: true
+      video: true, audio: false
     }).then(function (localMediaStream) {
       video.src = window.URL.createObjectURL(localMediaStream);
       video.play();
