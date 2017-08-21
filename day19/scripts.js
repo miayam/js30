@@ -50,7 +50,7 @@
     link.setAttribute('download', `handsome-${numbering}.jpeg`);
 
     link.innerHTML = `<img src="${data}" alt="photo" />`;
-    strip.insertBefore(link, strip.firsChild);
+    strip.insertBefore(link, strip.firstChild);
   }
 
   function init() {
