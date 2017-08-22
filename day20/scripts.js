@@ -1,12 +1,13 @@
 (function (window, undefined) {
   var words = document.querySelector('.words');
   var synthesis = window.speechSynthesis;
-  var timeout;
   var wordsArray;
   var lastWord;
   var utterance;
 
-  // It's actually from Stack Overflow
+  // It's actually from Stack Overflow. Remove empty
+  // element like "", null or undefined from
+  // array.
   function cleanArray(actual) {
     var newArray = [];
     for (var i = 0; i < actual.length; i++) {
@@ -18,7 +19,8 @@
   }
 
   words.addEventListener('keyup', function (event) {
-    // Utter the words if we type 'space' key.
+    // Utter the last typed word if we happend to type 'space'
+    // key after that.
     if (event.keyCode === 32) {
       wordsArray = words.textContent.split(' ');
       cleanedArray = cleanArray(wordsArray);
