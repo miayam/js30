@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>I Don't Use Mac!</title>
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+    <script>
+      function initMap() {
+        const defaultPosition = {
+          lat: -6.590369, lng: 106.774549
+        };
+
+        const defaultDescription = `
+          Lebih baik di sini. Rumah kita sendiri.
+          Coba klik logo 2 kali secara beruntun.
+        `;
+
+        var image = 'personal_life.png';
+
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 20,
+          center: defaultPosition
+        });
+
+        var marker = new google.maps.Marker({
+          position: defaultPosition,
+          map: map,
+          icon: image
+        });
+
+        var info = new google.maps.InfoWindow({
+          content: "",
+          maxWidth: 200
+        });
+
+        // Make sure geolocation interface is available in browser.
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function (position) {
+            var coordinate = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            };
+
+            map.setCenter(coordinate);
+            marker.setPosition(coordinate);
+            info.setContent(defaultDescription);
+            info.open(map, marker);
+          }, function () {
+            info.setContent('Geolocation is not working!');
+            info.open(map, marker);
+          });
+        }
+
+        marker.addListener('click', function () {
+          info.setContent(defaultDescription);
+          info.open(map, marker);
+        });
+
+        marker.addListener('dblclick', function () {
+          window.location = "https://miayam.github.io/about";
+        });
+      }
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAS-1ERlxbRpRbXZMTpknhsKOnLxFU6NjM&callback=initMap">
+    </script>
+  </body>
+</html>
