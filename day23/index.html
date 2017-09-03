@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Speech Synthesis</title>
+  <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="voiceinator">
+
+      <h1>The Voiceinator 5000</h1>
+
+      <select name="voice" id="voices">
+        <option value="">Select A Voice</option>
+      </select>
+
+      <label for="rate">Rate:</label>
+      <input name="rate" type="range" min="0" max="3" value="1" step="0.1">
+
+      <label for="pitch">Pitch:</label>
+      <input name="pitch" type="range" min="0" max="2" step="0.1">
+
+      <textarea name="text">Hello! I love JavaScript 👍</textarea>
+
+      <button id="stop">Stop!</button>
+      <button id="speak">Speak</button>
+    </div>
+
+<script>
+  (function (window, undefined) {
+    var utterance = new SpeechSynthesisUtterance();
+    var voicesDropdown = document.querySelector('[name="voice"]');
+    var options = document.querySelectorAll('[type="range"]');
+    var text = document.querySelector('[name="text"]');
+    var speakButton = document.querySelector('#speak');
+    var stopButton = document.querySelector('#stop');
+    var voices = [];
+    var DMZ = Object.create(null);
+
+    function populateVoices() {
+      voices = this.getVoices();
+      voicesDropdown.innerHTML = voices.filter(function (voice) {
+        return voice.lang.includes('en');
+      }).map(function (voice) {
+        return `<option value="${voice.name}">${voice.name} (${voice.lang})</option>`;
+      }).join('');
+    }
+
+    function setVoice() {
+      // It's lexical `this`.
+      var option = this;
+      utterance.voice = voices.find(function (voice) {
+        return voice.name === option.value;
+      });
+
+      toogle();
+    }
+
+    function toogle(continueToSpeak = true) {
+      window.speechSynthesis.cancel();
+
+      if (continueToSpeak) {
+        utterance.text = text.value;
+        window.speechSynthesis.speak(utterance);
+      }
+    }
+
+    function setOption() {
+      utterance[this.name] = this.value;
+      toogle();
+    }
+
+    window.speechSynthesis.addEventListener('voiceschanged', populateVoices);
+    voicesDropdown.addEventListener('change', setVoice);
+    options.forEach(function (option) {
+      option.addEventListener('change', setOption);
+    });
+    speakButton.addEventListener('click', toogle);
+    stopButton.addEventListener('click', toogle.bind(DMZ, false));
+  })(window);
+</script>
+
+</body>
+</html>
