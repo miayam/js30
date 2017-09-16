@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Understanding JavaScript's Capture</title>
+</head>
+<body class="bod">
+  <div class="options">
+    <input id="stopPropagation" type="radio" name="option[]">
+    <label for="stopPropagation">Stop Propagation</label>
+    <input id="bubble" type="radio" name="option[]" checked>
+    <label for="bubble">Bubbling</label>
+    <input id="once" type="radio" name="option[]">
+    <label for="once">Once</label>
+  <div>
+
+  <div class="clickable one">
+    1
+    <div class="clickable two">
+      2
+      <div class="clickable three">
+        3
+      </div>
+    </div>
+  </div>
+
+<style>
+  html {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+  }
+
+  *, *:before, *:after {
+    box-sizing: inherit;
+  }
+
+  .options {
+    font-size: 18px;
+    padding: 50px 0;
+  }
+
+  div {
+    font-size: 40px;
+    text-align: center;
+    color: #44324a;
+    width: 100%;
+    padding: 100px;
+  }
+
+  .one {
+    background: cornflowerblue;
+  }
+
+  .two {
+    background: indianred;
+  }
+
+  .three {
+    background: khaki;
+  }
+
+</style>
+<script>
+  (function (window, undefined) {
+    var divs = document.querySelectorAll('.clickable');
+    var stopPropagation = document.getElementById('stopPropagation');
+    var capture = document.getElementById('capture');
+    var bubble = document.getElementById('bubble');
+    var once = document.getElementById('once');
+    var event = new UIEvent('change', {
+      'view': window,
+      'bubbles': true,
+      'cancelable': true
+    });
+
+    function clicked(event) {
+      if (stopPropagation.checked) {
+        event.stopPropagation();
+      }
+
+      alert(`${this.textContent}`);
+    }
+
+    function setDivs(option) {
+      divs.forEach(function (div) {
+        div.addEventListener('click', clicked, option);
+      });
+    }
+
+    function unsetDivs() {
+      divs.forEach(function (div) {
+        div.removeEventListener('click', clicked);
+      });
+    }
+
+    once.addEventListener('change', function () {
+      unsetDivs();
+      setDivs({ once: this.checked, capture: true })
+    });
+
+    stopPropagation.addEventListener('change', function () {
+      unsetDivs();
+      setDivs();
+    });
+
+    bubble.addEventListener('change', function () {
+      unsetDivs();
+      setDivs();
+    });
+
+    bubble.dispatchEvent(event);
+  })(window);
+</script>
+</body>
+</html>
