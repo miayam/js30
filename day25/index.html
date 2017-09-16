@@ -9,9 +9,9 @@
     <input id="stopPropagation" type="radio" name="option[]">
     <label for="stopPropagation">Stop Propagation</label>
     <input id="bubble" type="radio" name="option[]" checked>
-    <label for="bubble">Bubbling</label>
+    <label for="bubble">Start Event Bubbling</label>
     <input id="once" type="radio" name="option[]">
-    <label for="once">Once</label>
+    <label for="once">Start Event Capturing Once (only clickable once)</label>
   <div>
 
   <div class="clickable one">
@@ -37,17 +37,23 @@
     box-sizing: inherit;
   }
 
+  .bod {
+    margin: -40px;
+  }
+
   .options {
     font-size: 18px;
-    padding: 50px 0;
+    font-weight: 200;
+    padding: 80px 0;
   }
 
   div {
-    font-size: 40px;
+    font-size: 30px;
     text-align: center;
+    font-weight: bold;
     color: #44324a;
     width: 100%;
-    padding: 100px;
+    padding: 80px;
   }
 
   .one {
