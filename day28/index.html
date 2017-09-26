@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Video Speed Scrubber</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="wrapper">
+    <video class="flex video-player" width="765" height="430" src="http://clips.vorwaerts-gmbh.de/VfE_html5.mp4" loop controls></video>
+    <div class="speed">
+      <div class="speed-bar">1×</div>
+    </div>
+  </div>
+
+<script>
+  (function (window, undefined) {
+    var speedSlider = document.querySelector('.speed');
+    var video = document.querySelector('.video-player');
+    var speedBar = document.querySelector('.speed-bar');
+    var isDown = false;
+
+    function handleSliderMove(event) {
+      var y = event.pageY - this.offsetTop;
+      var ratio = y / this.offsetHeight;
+      var min = 0.4;
+      var max = 4;
+      var height = Math.round(ratio * 100) + '%';
+      var playbackRate = ratio * (max - min) + min;
+
+      if (!isDown) {
+        return;
+      }
+
+      speedBar.style.height = height;
+      speedBar.textContent = playbackRate.toFixed(2) + 'x';
+      video.playbackRate = playbackRate;
+    }
+
+    speedSlider.addEventListener('mouseup', function () {
+      isDown = false;
+    });
+
+    speedSlider.addEventListener('mousedown', function () {
+      isDown = true;
+    });
+
+    speedSlider.addEventListener('mousemove', handleSliderMove);
+  })(window);
+</script>
+</body>
+</html>
