@@ -72,13 +72,27 @@
 
         var second = now.getSeconds();
 
-        // secondRatio is leftover to be added to the corresponding minute
+        // `secondRatio` is leftover to be added to the corresponding minute
         // of the date, so the clock will rotate as expected.
-
+        //
         // For example: 30 minutes 20 seconds. The minute hand will tick and
-        // rotate 180 degree + extra 20 seconds in degree.
+        // rotate 180 degree + 0.333 degree because of that extra 20 seconds.
         var secondRatio = second / 60;
 
+
+        // Why is with +90 there?
+        //
+        // This is the clock's hand UI before adding 90°
+        //
+        //     9 <----
+        // 
+        // This is the clock's hand UI after adding 90°
+        //
+        //         12
+        //         ^
+        //         |
+        //
+        // So we start everything from 12 o'clock
         var secondDegree = (secondRatio * 360) + 90;
 
         var minute = now.getMinutes();
